@@ -6,18 +6,27 @@ class Robot: public IterativeRobot
 	RobotDrive myRobot; // robot drive system
 	Joystick stick; // only joystick
 	LiveWindow *lw;
+	//CameraServer Cam;
 	int autoLoopCounter;
 	float xvalue;
 	float yvalue;
+	float X;
+
 
 public:
+	void RobotInit() override {
+		CameraServer::GetInstance()->SetQuality(50);
+		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
+	}
 	Robot() :
 		myRobot(1, 0),	// these must be initialized in the same order
 		stick(5),		// as they are declared above.
 		lw(LiveWindow::GetInstance()),
+		//Cam(),
 		autoLoopCounter(0),
 		xvalue(0),
-		yvalue(0)
+		yvalue(0),
+		X(0)
 	{
 		myRobot.SetExpiration(0.1);
 	}
@@ -46,7 +55,7 @@ private:
 
 	void TeleopPeriodic()
 	{
-		xvalue = -stick.GetX();
+		xvalue = -stick.GetZ()/2;
 		yvalue = -stick.GetY();
 		myRobot.ArcadeDrive(yvalue,xvalue);
 		//myRobot.ArcadeDrive(stick); // drive with arcade style (use right stick)
