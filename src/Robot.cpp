@@ -55,7 +55,7 @@ private:
 
 	void TeleopPeriodic()
 	{
-		xvalue = -stick.GetZ()/2;
+		xvalue = -stick.GetZ()*.75;
 		yvalue = -stick.GetY();
 		myRobot.ArcadeDrive(yvalue,xvalue);
 		//myRobot.ArcadeDrive(stick); // drive with arcade style (use right stick)
