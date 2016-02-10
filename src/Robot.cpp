@@ -8,7 +8,8 @@ class Robot: public IterativeRobot
 	LiveWindow *lw;
 	Encoder EncDist,lEnc,rEnc;
 	AnalogGyro gyro;
-	DigitalInput Autostop,captured,loaded,lSwitch,rSwitch;
+	DigitalInput Autostop,captured,loaded,lSwitch;
+	DigitalInput *rSwitch = new DigitalInput(0);
 	bool intup,intdown;
 	bool toggle,latch;
 	VictorSP launcher,intake;
@@ -27,7 +28,6 @@ public:
 	void RobotInit() override {
 	    CameraServer::GetInstance()->SetQuality(100);
 		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
-		captured = new DigitalInput(0);
 	}
 	Robot() :
 		myRobot(1, 0),	// these must be initialized in the same order
@@ -158,7 +158,7 @@ private:
 			sm2kl.Set(1.0);
 			sm2kr.Set(1.0);
 		}
-		if(lSwitch.Get()||rSwitch.Get())
+		if(lSwitch.Get()||rSwitch->Get())
 		{
 			sm2kr.Set(0.0);
 			sm2kl.Set(0.0);
