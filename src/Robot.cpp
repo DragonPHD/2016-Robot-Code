@@ -9,7 +9,7 @@ class Robot: public IterativeRobot
 	Encoder EncDist,lEnc,rEnc;
 	AnalogGyro gyro;
 	DigitalInput Autostop,captured,loaded,lSwitch;
-	DigitalInput *rSwitch = new DigitalInput(0);
+	DigitalInput rSwitch;
 	bool intup,intdown;
 	bool toggle,latch;
 	VictorSP launcher,intake;
@@ -37,11 +37,11 @@ public:
 		lEnc(0,3),
 		rEnc(4,6),
 		gyro(0),
-		Autostop(1),
-		captured(0),
-		loaded(0),
-		lSwitch(0),
-		rSwitch(0),
+		Autostop(0),
+		captured(1),
+		loaded(2),
+		lSwitch(3),
+		rSwitch(4),
 		intup(0),
 		intdown(0),
 		toggle(0),
@@ -158,7 +158,7 @@ private:
 			sm2kl.Set(1.0);
 			sm2kr.Set(1.0);
 		}
-		if(lSwitch.Get()||rSwitch->Get())
+		if(rSwitch.Get())
 		{
 			sm2kr.Set(0.0);
 			sm2kl.Set(0.0);
@@ -212,10 +212,10 @@ private:
 			intake.Set(1.0);
 		}
 		myRobot.ArcadeDrive(yvalue,xvalue);
-		SmartDashboard::PutNumber("Captured",captured.Get());
+		SmartDashboard::PutNumber("Captured",rSwitch.Get());
 		SmartDashboard::PutBoolean("Loaded",loaded.Get());
 		SmartDashboard::PutBoolean("latch",latch);
-		SmartDashboard::PutNumber("Button",stick.GetRawButton(7));
+		SmartDashboard::PutNumber("Button",stick.GetRawButton(5));
 		//myRobot.ArcadeDrive(stick); // drive with arcade style (use right stick)
 	}
 
