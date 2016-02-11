@@ -8,7 +8,7 @@ class Robot: public IterativeRobot
 	LiveWindow *lw;
 	Encoder EncDist,lEnc,rEnc;
 	AnalogGyro gyro;
-	DigitalInput Autostop,captured,loaded,lSwitch;
+	DigitalInput Autostop,captured,lSwitch;
 	DigitalInput rSwitch;
 	bool intup,intdown;
 	bool toggle,latch;
@@ -34,23 +34,22 @@ public:
 		stick(5),		// as they are declared above.
 		lw(LiveWindow::GetInstance()),
 		EncDist(0,1),
-		lEnc(0,3),
-		rEnc(4,6),
-		gyro(0),
-		Autostop(0),
-		captured(1),
-		loaded(2),
-		lSwitch(3),
-		rSwitch(4),
+		lEnc(2,3),
+		rEnc(4,5),
+		gyro(2),
+		Autostop(6),
+		captured(7),
+		lSwitch(8),
+		rSwitch(9),
 		intup(0),
 		intdown(0),
 		toggle(0),
 		latch(0),
-		launcher(5),
-		intake(0),
-		actintake(18),
-		sm2kl(3),
-		sm2kr(5),
+		launcher(3),
+		intake(4),
+		actintake(1),
+		sm2kl(2),
+		sm2kr(3),
 		autoLoopCounter(0),
 		xvalue(0),
 		yvalue(0),
@@ -59,7 +58,7 @@ public:
 		Auto(0),
 		ang(90),
 		Rev(360),
-		d1(12),
+		d1(0),
 		EncVal1(0)
 	{
 		myRobot.SetExpiration(0.1);
@@ -212,8 +211,7 @@ private:
 			intake.Set(1.0);
 		}
 		myRobot.ArcadeDrive(yvalue,xvalue);
-		SmartDashboard::PutNumber("Captured",rSwitch.Get());
-		SmartDashboard::PutBoolean("Loaded",loaded.Get());
+		SmartDashboard::PutNumber("rSwitch",rSwitch.Get());
 		SmartDashboard::PutBoolean("latch",latch);
 		SmartDashboard::PutNumber("Button",stick.GetRawButton(5));
 		//myRobot.ArcadeDrive(stick); // drive with arcade style (use right stick)
@@ -224,65 +222,5 @@ private:
 		lw->Run();
 	}
 };
-/*
- * #include "WPILib.h"
-#include "SmartJoystick.h"
-
-class Robot: public IterativeRobot
-{
-	SmartJoystick* operatorstick = new SmartJoystick(1);
-	RobotDrive myRobot; // robot drive system
-	SmartJoystick stick; // only joystick
-	LiveWindow *lw;
-	int autoLoopCounter;
-
-	float y = operatorstick->GetY();
-
-public:
-	Robot() :
-		myRobot(1, 0),	// these must be initialized in the same order
-		stick(5),		// as they are declared above.
-		lw(LiveWindow::GetInstance()),
-		autoLoopCounter(0)
-	{
-		myRobot.SetExpiration(0.1);
-	}
-
-private:
-	void AutonomousInit()
-	{
-		autoLoopCounter = 0;
-	}
-
-	void AutonomousPeriodic()
-	{
-		if(autoLoopCounter < 100) //Check if we've completed 100 loops (approximately 2 seconds)
-		{
-			myRobot.Drive(-0.5, 0.0); 	// drive forwards half speed
-			autoLoopCounter++;
-			} else {
-			myRobot.Drive(0.0, 0.0); 	// stop robot
-		}
-	}
-
-	void TeleopInit()
-	{
-
-	}
-
-	void TeleopPeriodic()
-	{
-		myRobot.ArcadeDrive(stick); // drive with arcade style (use right stick)
-	}
-
-	void TestPeriodic()
-	{
-		lw->Run();
-	}
-};
-
-START_ROBOT_CLASS(Robot)
-
- */
 
 START_ROBOT_CLASS(Robot)
