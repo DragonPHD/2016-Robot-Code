@@ -10,6 +10,7 @@ class Robot: public IterativeRobot
 	AnalogGyro gyro;
 	DigitalInput Autostop,captured,lSwitch;
 	DigitalInput rSwitch;
+	Ultrasonic sonic;
 	bool intup,intdown;
 	bool toggle,latch;
 	VictorSP launcher,intake;
@@ -28,6 +29,7 @@ public:
 	void RobotInit() override {
 	    CameraServer::GetInstance()->SetQuality(100);
 		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
+
 	}
 	Robot() :
 		myRobot(1, 0),	// these must be initialized in the same order
@@ -41,6 +43,7 @@ public:
 		captured(7),
 		lSwitch(8),
 		rSwitch(9),
+		sonic(0,1),		//Finalize Ports
 		intup(0),
 		intdown(0),
 		toggle(0),
@@ -133,7 +136,8 @@ private:
 			}
 		}
 		launcher.Set(1.0);
-		while(!Autostop.Get())
+		sonic.SetAutomaticMode(true);
+		while(sonic.GetRangeInches()<5)
 		{
 			myRobot.Drive(-0.5,0.0);
 		}
