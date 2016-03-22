@@ -18,7 +18,7 @@ class Robot: public IterativeRobot
 	int autoLoopCounter;
 	float xvalue;
 	float yvalue;
-	float motorspeed;
+	float motorspeed,DefToShot;
 	float cir;
 	int Auto,ang;
 	int Rev,d1;
@@ -57,6 +57,7 @@ public:
 		xvalue(0),
 		yvalue(0),
 		motorspeed(0),
+		DefToShot(42),
 		cir(25.13274123),
 		Auto(0),
 		ang(90),
@@ -137,7 +138,7 @@ private:
 		}
 		launcher.Set(1.0);
 		sonic.SetAutomaticMode(true);
-		while(sonic.GetRangeInches()<5)
+		while(sonic.GetRangeInches()>DefToShot)
 		{
 			myRobot.Drive(-0.5,0.0);
 		}
